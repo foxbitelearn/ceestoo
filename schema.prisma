@@ -1,0 +1,17 @@
+// This is your Prisma schema file
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Example User model - you can change this later!
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+}
