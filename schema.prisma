@@ -1,7 +1,10 @@
-// This is your Prisma schema file
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+
+
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -9,9 +12,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Example User model - you can change this later!
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id          String   @id @default(uuid())
+  name        String   @unique
+  passcode    String
+  trackingIds String[] @default([]) // Array of strings for device tracking
+  createdAt   DateTime @default(now())
+}
+
+
+model Message {
+  id         String   @id @default(uuid())
+  to         String
+  content    String
+  // Using DateTime is better for DBs. We will map this to number in the API layer.
+  timestamp  DateTime @default(now()) 
+  trackingId String?
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  teacher   String
+  content   String
+  timestamp DateTime @default(now())
 }
